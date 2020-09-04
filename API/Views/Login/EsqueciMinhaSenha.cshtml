@@ -1,0 +1,49 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div class="container">
+    <h1>Esqueci minha Senha</h1>
+
+    <h4>Usuário</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form id="frmEsqueciMinhaSenha" action="AlterarSenha">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" class="form-control" id="email" placeholder="E-mail">
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar e-mail</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script>
+    $("#frmEsqueciMinhaSenha").submit(function (event) {
+        event.preventDefault();
+
+        var $form = $(this),
+            email = $("#email"),
+            url = $form.attr("action");
+
+        $.ajax({
+            method: 'POST',
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(email.val()),
+        }).done(function (data) {
+            if (data.statusCode == 200) {
+                email.val("");
+
+                alert(data.result);
+            } else {
+                alert(data.message);
+            }
+        }).fail(function (msg) {
+            debugger;
+            console.log('FAIL');
+        });
+    });
+</script>
